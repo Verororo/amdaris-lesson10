@@ -22,17 +22,18 @@ while (to == null)
     }
 }
 
-using MailMessage message = new MailMessage(from, to);
-message.Subject = "Newsletter Thanks";
-message.Body = "Thank you for subscribing to our newsletter!";
-
-using SmtpClient client = new(); //specify the SMTP host here
-
-try
+using (MailMessage message = new MailMessage(from, to))
+using (SmtpClient client = new())
 {
-    client.Send(message);
-}
-catch (SmtpException e)
-{
-    Console.WriteLine(e);
+    message.Subject = "Newsletter Thanks";
+    message.Body = "Thank you for subscribing to our newsletter!";
+
+    try
+    {
+        client.Send(message);
+    }
+    catch (SmtpException e)
+    {
+        Console.WriteLine(e);
+    }
 }
